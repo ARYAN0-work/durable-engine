@@ -1,17 +1,15 @@
-import type { IncomingMessage, ServerResponse } from "node:http";
+import express, { type Express } from "express";
 
-export function createApp() {
-  return (
-    req: IncomingMessage,
-    res: ServerResponse,
-  ): void => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+export function createApp(): Express {
+  const app = express();
 
-    res.end(
-      JSON.stringify({
-        message: "Durable Engine is running",
-      }),
-    );
-  };
+  app.use(express.json());
+
+  app.get("/", (_req, res) => {
+    res.status(200).json({
+      message: "Durable Engine is running",
+    });
+  });
+
+  return app;
 }
